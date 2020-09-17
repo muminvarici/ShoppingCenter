@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="FluentValidation.AspNetCore" Version="8.4.0" />
+		<PackageReference Include="MediatR" Version="8.1.0" />
+		<PackageReference Include="AutoMapper" Version="10.0.0" />
+		<PackageReference Include="MediatR" Version="8.1.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\ShoppingCenter.DataLayer\ShoppingCenter.DataLayer.csproj" />
+		<ProjectReference Include="..\ShoppingCenter.InfraStructure\ShoppingCenter.InfraStructure.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="Commands\" />
+		<PackageReference Include="AutoMapper" Version="10.0.0" />
+		<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
+	</ItemGroup>
+
+</Project>

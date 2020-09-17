@@ -1,4 +1,4 @@
-﻿namespace ShoppingCenter.InfraStructure
+﻿namespace ShoppingCenter.InfraStructure.Settings
 {
 	public class DbSettings
 	{

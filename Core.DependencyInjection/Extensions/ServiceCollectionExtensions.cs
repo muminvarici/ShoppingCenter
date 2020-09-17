@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Core.DependencyInjection.Attributes;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.IO;
 using System.Reflection;
-using Core.DependencyInjection.Attributes;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Core.DependencyInjection.Extensions
 {
@@ -12,7 +12,7 @@ namespace Core.DependencyInjection.Extensions
 		/// <summary>
 		/// Scans all assemblies and finds injected services.
 		/// </summary>
-		public static IServiceCollection InjectServiceAssembly(this IServiceCollection services)
+		public static IServiceCollection InjectServiceAssembly(this IServiceCollection services, bool isDevelopment, bool isProduction)
 		{
 			var rootPath = Directory.GetParent(AppContext.BaseDirectory).FullName;
 			var dllAddresses = Directory.GetFiles(rootPath, "*.dll", SearchOption.TopDirectoryOnly);
@@ -20,9 +20,9 @@ namespace Core.DependencyInjection.Extensions
 			{
 				try
 				{
-					ScanAssembly(services, dll);
+					ScanAssembly(services, dll, isDevelopment, isProduction);
 				}
-				catch (BadImageFormatException e)
+				catch (BadImageFormatException)
 				{
 
 				}
@@ -30,7 +30,7 @@ namespace Core.DependencyInjection.Extensions
 			return services;
 		}
 
-		private static void ScanAssembly(IServiceCollection services, string assemblyPath)
+		private static void ScanAssembly(IServiceCollection services, string assemblyPath, bool isDevelopment, bool isProduction)
 		{
 
 			var assembly = Assembly.LoadFrom(assemblyPath);
@@ -40,6 +40,11 @@ namespace Core.DependencyInjection.Extensions
 				var dependencyAttributes = type.GetCustomAttributes<DependencyAttribute>();
 				foreach (var dependencyAttribute in dependencyAttributes)
 				{
+					if (dependencyAttribute.DevelopmentOnly == true && isProduction||
+						dependencyAttribute.ProductionOnly == true && isDevelopment)
+					{
+						continue;
+					}
 					var serviceDescriptor = dependencyAttribute.BuildServiceDescriptor(type.GetTypeInfo());
 					services.Add(serviceDescriptor);
 				}

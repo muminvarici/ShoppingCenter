@@ -10,6 +10,9 @@ namespace Core.DependencyInjection.Attributes
 
 		public Type ServiceType { get; set; }
 
+		public bool DevelopmentOnly { get; set; }
+		public bool ProductionOnly { get; set; }
+
 		public Type[] GenericTypes { get; set; }
 
 		protected DependencyAttribute(ServiceLifetime dependencyType, params Type[] genericTypes)

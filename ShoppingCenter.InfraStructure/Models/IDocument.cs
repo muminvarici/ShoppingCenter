@@ -2,12 +2,12 @@
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 
-namespace ShoppingCenter.InfraStructure
+namespace ShoppingCenter.InfraStructure.Models
 {
 	public interface IDocument
 	{
 		[BsonId]
-		ObjectId _id { get; set; }
+		ObjectId Id { get; set; }
 		[BsonRepresentation(BsonType.DateTime)]
 		DateTime CreatedAt { get; set; }
 		[BsonRepresentation(BsonType.DateTime)]

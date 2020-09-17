@@ -3,6 +3,8 @@ using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.GeoJsonObjectModel;
+using ShoppingCenter.InfraStructure.Models;
+using ShoppingCenter.InfraStructure.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +12,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 
-namespace ShoppingCenter.InfraStructure
+namespace ShoppingCenter.InfraStructure.Implementations
 {
 	public class MongoRepository<TDocument> : IMongoRepository<TDocument> where TDocument : IDocument
 	{
@@ -96,14 +98,14 @@ namespace ShoppingCenter.InfraStructure
 		public virtual TDocument FindById(string id)
 		{
 			var objectId = new ObjectId(id);
-			var filter = Builders<TDocument>.Filter.Eq(doc => doc._id, objectId);
+			var filter = Builders<TDocument>.Filter.Eq(doc => doc.Id, objectId);
 			return _collection.Find(filter).SingleOrDefault();
 		}
 
 		public virtual async Task<TDocument> FindByIdAsync(string id)
 		{
 			var objectId = new ObjectId(id);
-			var filter = Builders<TDocument>.Filter.Eq(doc => doc._id, objectId);
+			var filter = Builders<TDocument>.Filter.Eq(doc => doc.Id, objectId);
 			return await (await _collection.FindAsync(filter)).SingleOrDefaultAsync();
 		}
 
@@ -141,14 +143,14 @@ namespace ShoppingCenter.InfraStructure
 		public void ReplaceOne(TDocument document)
 		{
 			document.UpdatedAt = DateTime.Now;
-			var filter = Builders<TDocument>.Filter.Eq(doc => doc._id, document._id);
+			var filter = Builders<TDocument>.Filter.Eq(doc => doc.Id, document.Id);
 			_collection.FindOneAndReplace(filter, document);
 		}
 
 		public virtual async Task ReplaceOneAsync(TDocument document)
 		{
 			document.UpdatedAt = DateTime.Now;
-			var filter = Builders<TDocument>.Filter.Eq(doc => doc._id, document._id);
+			var filter = Builders<TDocument>.Filter.Eq(doc => doc.Id, document.Id);
 			await _collection.FindOneAndReplaceAsync(filter, document);
 		}
 
@@ -177,7 +179,7 @@ namespace ShoppingCenter.InfraStructure
 
 		public void DeleteById(BsonObjectId objectId)
 		{
-			var filter = Builders<TDocument>.Filter.Eq(doc => doc._id, objectId);
+			var filter = Builders<TDocument>.Filter.Eq(doc => doc.Id, objectId);
 			_collection.FindOneAndDelete(filter);
 		}
 

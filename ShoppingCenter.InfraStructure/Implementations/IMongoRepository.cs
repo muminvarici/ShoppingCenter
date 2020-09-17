@@ -1,4 +1,5 @@
 ﻿using MongoDB.Bson;
+using ShoppingCenter.InfraStructure.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 
-namespace ShoppingCenter.InfraStructure
+namespace ShoppingCenter.InfraStructure.Implementations
 {
 	public interface IMongoRepository<TDocument> where TDocument : IDocument
 	{

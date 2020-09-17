@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using ShoppingCenter.AppLayer.Models;
+using ShoppingCenter.DataLayer.Models;
 
 namespace ShoppingCenter.Api
 {
@@ -6,7 +8,8 @@ namespace ShoppingCenter.Api
 	{
 		public AutoMapperProfile()
 		{
-
+			CreateMap<Product, ProductResponse>();
+			CreateMap<Cart, CartResponse>();
 		}
 	}
 }
