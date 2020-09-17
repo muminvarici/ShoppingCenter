@@ -1,4 +1,6 @@
-﻿using ShoppingCenter.InfraStructure.Models;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using ShoppingCenter.InfraStructure.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,10 +14,14 @@ namespace ShoppingCenter.DataLayer.Models
 		public int Quantity { get; set; }
 	}
 
-	public interface IProduct
+	public interface IProduct : IProductBase
 	{
 		string Name { get; set; }
 		decimal Price { get; set; }
+	}
+
+	public interface IProductBase
+	{
 		int Quantity { get; set; }
 	}
 }

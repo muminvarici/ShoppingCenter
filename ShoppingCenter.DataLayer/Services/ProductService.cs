@@ -9,13 +9,12 @@ using System.Text;
 namespace ShoppingCenter.DataLayer.Services
 {
 	[ScopedDependency(ServiceType = typeof(IProductService), ProductionOnly = true)]
-	public class ProductService : IProductService
+	public class ProductService : ProductServiceBase, IProductService
 	{
 		private readonly IMongoRepository<Product> productRepository;
 
-		public ProductService(IMongoRepository<Product> productRepository)
+		public ProductService(IMongoRepository<Product> repository) : base(repository)
 		{
-			this.productRepository = productRepository;
 		}
 	}
 }

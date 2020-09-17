@@ -17,7 +17,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Commands\" />
 		<PackageReference Include="AutoMapper" Version="10.0.0" />
 		<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
 	</ItemGroup>

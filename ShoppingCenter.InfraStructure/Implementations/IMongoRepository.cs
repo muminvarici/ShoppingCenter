@@ -65,5 +65,8 @@ namespace ShoppingCenter.InfraStructure.Implementations
 		Task<IEnumerable<TDocument>> GetAllAsync();
 
 		IEnumerable<TDocument> GetAllWithPaging(int pageSize = 20, int pageNumber = 1, bool checkDelete = true);
+
+		long Count();
+		Task<long> CountAsync();
 	}
 }

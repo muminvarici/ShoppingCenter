@@ -7,6 +7,7 @@ namespace ShoppingCenter.AppLayer.Models
 {
 	public class CartResponse : ICart
 	{
-		public List<Product> Items { get; set; }
+		public string UserId { get; set; }
+		public List<ProductResponse> Items { get; set; }
 	}
 }

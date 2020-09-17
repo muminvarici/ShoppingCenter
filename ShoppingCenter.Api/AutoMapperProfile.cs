@@ -9,6 +9,7 @@ namespace ShoppingCenter.Api
 		public AutoMapperProfile()
 		{
 			CreateMap<Product, ProductResponse>();
+			CreateMap<ProductRequest, Product>();
 			CreateMap<Cart, CartResponse>();
 		}
 	}

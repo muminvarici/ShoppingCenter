@@ -40,10 +40,19 @@ namespace ShoppingCenter.InfraStructure.Implementations
 			return preferedName;
 		}
 
-		public virtual bool Contains(
-			Expression<Func<TDocument, bool>> filterExpression)
+		public virtual bool Contains(Expression<Func<TDocument, bool>> filterExpression)
 		{
 			return _collection.Find(filterExpression).Any();
+		}
+
+		public virtual long Count()
+		{
+			return _collection.EstimatedDocumentCount();
+		}
+
+		public virtual async Task<long> CountAsync()
+		{
+			return await _collection.EstimatedDocumentCountAsync();
 		}
 
 		public virtual async Task<bool> ContainsAsync(Expression<Func<TDocument, bool>> filterExpression)

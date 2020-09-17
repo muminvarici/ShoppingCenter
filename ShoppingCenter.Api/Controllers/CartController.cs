@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using ShoppingCenter.AppLayer.Commands;
 using ShoppingCenter.AppLayer.Queries;
 using ShoppingCenter.DataLayer.Models;
 using System;
@@ -7,9 +8,8 @@ using System.Threading.Tasks;
 
 namespace ShoppingCenter.Api.Controllers
 {
-	[Route("api/[controller]")]
-	[ApiController]
-	public class CartController : ControllerBase
+
+	public class CartController: ApiControllerBase
 	{
 		private readonly IMediator mediator;
 
@@ -26,9 +26,12 @@ namespace ShoppingCenter.Api.Controllers
 			return ConvertToResponse(result);
 		}
 
-		private IActionResult ConvertToResponse(object result)
+		[HttpPost]
+		public async Task<IActionResult> AddItemToCartAsync([FromBody] AddItemToCartCommand command)
 		{
-			return result != null ? (IActionResult)Ok(result) : NotFound();
+			var result = await mediator.Send(command);
+			return ConvertToResponse(result);
 		}
+
 	}
 }
