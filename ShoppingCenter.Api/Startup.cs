@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using ShoppingCenter.Api.Filters;
 using ShoppingCenter.Api.PipelineBehaviors;
 using ShoppingCenter.InfraStructure.Implementations;
 using ShoppingCenter.InfraStructure.Settings;
@@ -31,7 +32,7 @@ namespace ShoppingCenter.Api
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-			var assemblies = new Assembly[] 
+			var assemblies = new Assembly[]
 			{
 				typeof(ShoppingCenter.AppLayer.Queries.GetCartByIdQuery).Assembly,
 				Assembly.GetExecutingAssembly()
@@ -57,7 +58,11 @@ namespace ShoppingCenter.Api
 			//add swagger with no authentication option
 			ConfigurePostServicesAddSwagger(services, false);
 
-			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+			services.AddMvc(options =>
+			{
+				options.Filters.Add(new ValidationFilter());
+			})
+			.SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
