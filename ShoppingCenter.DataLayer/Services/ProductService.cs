@@ -8,7 +8,7 @@ using System.Text;
 
 namespace ShoppingCenter.DataLayer.Services
 {
-	[SingletonDependency(ServiceType = typeof(IProductService), ProductionOnly = true)]
+	[ScopedDependency(ServiceType = typeof(IProductService), ProductionOnly = true)]
 	public class ProductService : IProductService
 	{
 		private readonly IMongoRepository<Product> productRepository;

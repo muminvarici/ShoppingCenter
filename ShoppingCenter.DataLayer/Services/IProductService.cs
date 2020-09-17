@@ -1,6 +1,6 @@
 ﻿namespace ShoppingCenter.DataLayer.Services
 {
-	internal interface IProductService
+	public interface IProductService
 	{
 	}
 }
