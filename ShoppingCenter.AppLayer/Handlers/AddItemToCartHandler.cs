@@ -30,10 +30,6 @@ namespace ShoppingCenter.AppLayer.Handlers
 			var cart = await cartService.GetByUserAsync(request.UserId);
 
 			var product = await productService.GetByIdAsync(request.ProductInfo.Id);
-			if (product.Quantity < 1)
-			{
-				throw new KeyNotFoundException("Product quantity is not enough to add cart");
-			}
 
 			cart = await cartService.AddItemToCartAsync(cart, product, request.ProductInfo.Quantity, request.UserId);
 			return mapper.Map<CartResponse>(cart);

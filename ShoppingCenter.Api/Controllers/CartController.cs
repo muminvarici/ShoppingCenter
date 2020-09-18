@@ -26,6 +26,15 @@ namespace ShoppingCenter.Api.Controllers
 			return ConvertToResponse(result);
 		}
 
+		[HttpGet("GetBuUserId/{userId}")]
+		public async Task<IActionResult> GetBuUserIdAsync(string userId)
+		{
+			var query = new GetCartByUserIdQuery { UserId = userId };
+			var result = await mediator.Send(query);
+			return ConvertToResponse(result);
+		}
+
+
 		[HttpPost]
 		public async Task<IActionResult> AddItemToCartAsync([FromBody] AddItemToCartCommand command)
 		{

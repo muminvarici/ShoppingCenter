@@ -1,4 +1,5 @@
 ﻿using Core.DependencyInjection.Attributes;
+using Core.DependencyInjection.Exceptions;
 using MongoDB.Bson;
 using ShoppingCenter.DataLayer.Models;
 using ShoppingCenter.InfraStructure.Implementations;
@@ -14,10 +15,12 @@ namespace ShoppingCenter.DataLayer.Services
 	public class CartService : ICartService
 	{
 		private readonly IMongoRepository<Cart> cartRepository;
+		private readonly IProductService productService;
 
-		public CartService(IMongoRepository<Cart> cartRepository)
+		public CartService(IMongoRepository<Cart> cartRepository, IProductService productService)
 		{
 			this.cartRepository = cartRepository;
+			this.productService = productService;
 		}
 
 		public async Task<Cart> AddItemToCartAsync(Cart cart, Product product, int quantity, string userId)
@@ -33,7 +36,12 @@ namespace ShoppingCenter.DataLayer.Services
 			}
 			else
 			{
+				foreach (var cartItem in cart.Items)
+				{
+					ToMinifiedProduct(cartItem, cartItem.Quantity);
+				}
 				var item = cart.Items.FirstOrDefault(w => w.Id == product.Id);
+				CheckProductCount(item, product.Quantity, quantity);
 				if (item == null)
 				{
 					cart.Items.Add(GetMinifiedProduct(product, quantity));
@@ -47,23 +55,54 @@ namespace ShoppingCenter.DataLayer.Services
 			return cart;
 		}
 
+		private void CheckProductCount(Product item, int availableQuantity, int quantity)
+		{
+			if (item.Quantity + quantity > availableQuantity)
+			{
+				throw new ServiceException("Product quantity is not available");
+			}
+		}
+
 		private Product GetMinifiedProduct(Product product, int quantity)
 		{
 			return new Product { Id = product.Id, Quantity = quantity };
 		}
 
+		private void ToMinifiedProduct(Product product, int quantity)
+		{
+			product.Price = 0;
+			product.Name = null;
+		}
+
 		public async Task<Cart> GetByIdAsync(string id)
 		{
-			if (!MongoDB.Bson.ObjectId.TryParse(id, out var value))
+			var cart = await cartRepository.FindByIdAsync(id);
+			await FillCartDetailsAsync(cart);
+			return cart;
+		}
+
+		private async Task FillCartDetailsAsync(Cart cart)
+		{
+			var products = (await productService.GetByIdsAsync(cart.Items.Select(w => w.Id))).ToList();
+			foreach (var item in cart.Items)
 			{
-				return null;
+				var product = products.FirstOrDefault(w => w.Id == item.Id);
+				FillProductProperties(item, product);
 			}
-			return await cartRepository.FindByIdAsync(id);
+			cart.TotalPrice = cart.Items.Sum(w => w.Quantity * w.Price);
+		}
+
+		private void FillProductProperties(Product target, Product source)
+		{
+			target.Name = source.Name;
+			target.Price = source.Price;
 		}
 
 		public async Task<Cart> GetByUserAsync(string userId)
 		{
-			return await cartRepository.FindOneAsync(w => w.UserId == userId);
+			var cart = await cartRepository.FindOneAsync(w => w.UserId == userId);
+			await FillCartDetailsAsync(cart);
+			return cart;
 		}
 	}
 }

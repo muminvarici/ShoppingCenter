@@ -1,7 +1,9 @@
-﻿using ShoppingCenter.DataLayer.Models;
+﻿using MongoDB.Bson;
+using ShoppingCenter.DataLayer.Models;
 using ShoppingCenter.InfraStructure.Implementations;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,5 +27,9 @@ namespace ShoppingCenter.DataLayer.Services
 			return await Repository.FindByIdAsync(id);
 		}
 
+		public async Task<IEnumerable<Product>> GetByIdsAsync(IEnumerable<ObjectId> ids)
+		{
+			return await Repository.FilterByAsync(w => ids.Contains(w.Id));
+		}
 	}
 }

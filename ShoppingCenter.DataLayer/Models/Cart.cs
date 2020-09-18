@@ -9,11 +9,13 @@ namespace ShoppingCenter.DataLayer.Models
 	{
 		public string UserId { get; set; }
 		public List<Product> Items { get; set; }
+		public decimal TotalPrice { get; set; }
 	}
 
 	public interface ICart
 	{
 		string UserId { get; set; }
 		List<Product> Items { get; set; }
+		decimal TotalPrice { get; set; }
 	}
 }
