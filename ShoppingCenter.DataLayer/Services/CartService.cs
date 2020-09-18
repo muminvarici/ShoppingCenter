@@ -101,8 +101,21 @@ namespace ShoppingCenter.DataLayer.Services
 		public async Task<Cart> GetByUserAsync(string userId)
 		{
 			var cart = await cartRepository.FindOneAsync(w => w.UserId == userId);
-			await FillCartDetailsAsync(cart);
+			if (cart != null)
+			{
+				await FillCartDetailsAsync(cart);
+			}
+
 			return cart;
+		}
+
+		public async Task DeleteAsync(string id)
+		{
+			if (!cartRepository.Contains(w => w.Id == ObjectId.Parse(id)))
+			{
+				throw new ServiceException("Cart not found");
+			}
+			await cartRepository.DeleteByIdAsync(id);
 		}
 	}
 }

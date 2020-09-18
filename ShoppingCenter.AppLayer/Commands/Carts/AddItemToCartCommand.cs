@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ShoppingCenter.AppLayer.Commands
+namespace ShoppingCenter.AppLayer.Commands.Carts
 {
 	public class AddItemToCartCommand : IRequest<CartResponse>
 	{

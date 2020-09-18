@@ -10,5 +10,6 @@ namespace ShoppingCenter.DataLayer.Services
 		Task<IEnumerable<Product>> GetAllAsync();
 		Task<Product> GetByIdAsync(string id);
 		Task<IEnumerable<Product>> GetByIdsAsync(IEnumerable<ObjectId> ids);
+		Task<Product> SaveProductAsync(string id, Product product);
 	}
 }

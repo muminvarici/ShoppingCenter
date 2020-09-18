@@ -9,13 +9,27 @@ using System.Threading.Tasks;
 
 namespace ShoppingCenter.DataLayer.Services
 {
-	public abstract class ProductServiceBase: IProductService
+	public abstract class ProductServiceBase : IProductService
 	{
 		public ProductServiceBase(IMongoRepository<Product> repository)
 		{
 			this.Repository = repository;
 		}
 		public IMongoRepository<Product> Repository { get; private set; }
+
+		public async Task<Product> SaveProductAsync(string id, Product product)
+		{
+			if (string.IsNullOrEmpty(id))
+			{
+				await Repository.InsertOneAsync(product);
+			}
+			else
+			{
+				await Repository.ReplaceOneAsync(product);
+			}
+
+			return product;
+		}
 
 		public virtual async Task<IEnumerable<Product>> GetAllAsync()
 		{

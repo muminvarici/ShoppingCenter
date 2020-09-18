@@ -1,11 +1,7 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ShoppingCenter.AppLayer.Models;
+using ShoppingCenter.AppLayer.Commands.Products;
 using ShoppingCenter.AppLayer.Queries;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ShoppingCenter.Api.Controllers
@@ -28,5 +24,18 @@ namespace ShoppingCenter.Api.Controllers
 			return ConvertToResponse(result);
 		}
 
+		[HttpPost]
+		public async Task<IActionResult> Create([FromBody]AddProductCommand command)
+		{
+			var result = await mediator.Send(command);
+			return ConvertToResponse(result);
+		}
+
+		[HttpPut]
+		public async Task<IActionResult> Update([FromBody]UpdateProductCommand command)
+		{
+			var result = await mediator.Send(command);
+			return ConvertToResponse(result);
+		}
 	}
 }

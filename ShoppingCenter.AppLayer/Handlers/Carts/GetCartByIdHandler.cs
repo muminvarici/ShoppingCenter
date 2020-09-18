@@ -10,21 +10,21 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ShoppingCenter.AppLayer.Handlers
+namespace ShoppingCenter.AppLayer.Handlers.Carts
 {
-	public class GetCartByUserIdHandler : IRequestHandler<GetCartByUserIdQuery, CartResponse>
+	public class GetCartByIdHandler : IRequestHandler<GetCartByIdQuery, CartResponse>
 	{
 		private readonly ICartService cartService;
 		private readonly IMapper mapper;
 
-		public GetCartByUserIdHandler(ICartService cartService, IMapper mapper)
+		public GetCartByIdHandler(ICartService cartService, IMapper mapper)
 		{
 			this.cartService = cartService;
 			this.mapper = mapper;
 		}
-		public async Task<CartResponse> Handle(GetCartByUserIdQuery request, CancellationToken cancellationToken)
+		public async Task<CartResponse> Handle(GetCartByIdQuery request, CancellationToken cancellationToken)
 		{
-			var result = await cartService.GetByUserAsync(request.UserId);
+			var result = await cartService.GetByIdAsync(request.Id);
 			return mapper.Map<CartResponse>(result);
 		}
 	}

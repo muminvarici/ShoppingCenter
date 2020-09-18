@@ -1,15 +1,13 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ShoppingCenter.AppLayer.Commands;
+using ShoppingCenter.AppLayer.Commands.Carts;
 using ShoppingCenter.AppLayer.Queries;
-using ShoppingCenter.DataLayer.Models;
-using System;
 using System.Threading.Tasks;
 
 namespace ShoppingCenter.Api.Controllers
 {
 
-	public class CartController: ApiControllerBase
+	public class CartController : ApiControllerBase
 	{
 		private readonly IMediator mediator;
 
@@ -42,5 +40,11 @@ namespace ShoppingCenter.Api.Controllers
 			return ConvertToResponse(result);
 		}
 
+		[HttpDelete("{id}")]
+		public async Task DeleteAsync(string id)
+		{
+			var command = new DeleteCartCommand { Id = id };
+			await mediator.Send(command);
+		}
 	}
 }

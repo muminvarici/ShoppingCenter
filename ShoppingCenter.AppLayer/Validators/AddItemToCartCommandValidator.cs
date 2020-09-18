@@ -1,8 +1,5 @@
 ﻿using FluentValidation;
-using ShoppingCenter.AppLayer.Commands;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using ShoppingCenter.AppLayer.Commands.Carts;
 
 namespace ShoppingCenter.AppLayer.Validators
 {
@@ -11,8 +8,9 @@ namespace ShoppingCenter.AppLayer.Validators
 		public AddItemToCartCommandValidator()
 		{
 			RuleFor(w => w.ProductInfo)
-				.NotNull()
-				.Must(w => w.Quantity > 0);
+				.NotNull();
+			RuleFor(w => w.ProductInfo.Quantity)
+				.NotEmpty();
 			RuleFor(w => w.UserId)
 				.NotEmpty();
 		}

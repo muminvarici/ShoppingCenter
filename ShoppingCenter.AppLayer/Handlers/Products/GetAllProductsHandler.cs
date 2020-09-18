@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ShoppingCenter.AppLayer.Handlers
+namespace ShoppingCenter.AppLayer.Handlers.Products
 {
 	public class GetAllProductsHandler : IRequestHandler<GetAllProductsQuery, IEnumerable<ProductResponse>>
 	{

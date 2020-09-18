@@ -1,16 +1,12 @@
 ﻿using AutoMapper;
 using MediatR;
-using ShoppingCenter.AppLayer.Commands;
+using ShoppingCenter.AppLayer.Commands.Carts;
 using ShoppingCenter.AppLayer.Models;
-using ShoppingCenter.DataLayer.Models;
 using ShoppingCenter.DataLayer.Services;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ShoppingCenter.AppLayer.Handlers
+namespace ShoppingCenter.AppLayer.Handlers.Carts
 {
 	public class AddItemToCartHandler : IRequestHandler<AddItemToCartCommand, CartResponse>
 	{
@@ -32,6 +28,7 @@ namespace ShoppingCenter.AppLayer.Handlers
 			var product = await productService.GetByIdAsync(request.ProductInfo.Id);
 
 			cart = await cartService.AddItemToCartAsync(cart, product, request.ProductInfo.Quantity, request.UserId);
+			cart = await cartService.GetByIdAsync(cart.Id.ToString());
 			return mapper.Map<CartResponse>(cart);
 		}
 	}
