@@ -10,6 +10,7 @@ namespace ShoppingCenter.DataLayer.Models
 		public string UserId { get; set; }
 		public List<Product> Items { get; set; }
 		public decimal TotalPrice { get; set; }
+		public bool CheckedOut { get; internal set; }
 	}
 
 	public interface ICart

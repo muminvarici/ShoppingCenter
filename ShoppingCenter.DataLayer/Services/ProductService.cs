@@ -11,8 +11,6 @@ namespace ShoppingCenter.DataLayer.Services
 	[ScopedDependency(ServiceType = typeof(IProductService), ProductionOnly = true)]
 	public class ProductService : ProductServiceBase, IProductService
 	{
-		private readonly IRepository<Product> productRepository;
-
 		public ProductService(IRepository<Product> repository) : base(repository)
 		{
 		}

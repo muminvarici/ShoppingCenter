@@ -102,9 +102,9 @@ namespace ShoppingCenter.DataLayer.Services
 			target.Price = source.Price;
 		}
 
-		public async Task<Cart> GetByUserAsync(string userId)
+		public async Task<Cart> GetByUserAsync(string userId, bool includeCheckedOut)
 		{
-			var cart = await cartRepository.FindOneAsync(w => w.UserId == userId);
+			var cart = await cartRepository.FindOneAsync(w => w.UserId == userId && (includeCheckedOut || !includeCheckedOut && !w.CheckedOut));
 			if (cart != null)
 			{
 				await FillCartDetailsAsync(cart);
@@ -120,6 +120,13 @@ namespace ShoppingCenter.DataLayer.Services
 				throw new ServiceException("Cart not found");
 			}
 			await cartRepository.DeleteByIdAsync(id);
+		}
+
+		public async Task CheckoutCartAsync(ObjectId id)
+		{
+			var cart = await cartRepository.FindByIdAsync(id.ToString());
+			cart.CheckedOut = true;
+			await cartRepository.ReplaceOneAsync(cart);
 		}
 	}
 }

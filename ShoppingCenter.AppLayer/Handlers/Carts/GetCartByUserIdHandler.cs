@@ -24,7 +24,7 @@ namespace ShoppingCenter.AppLayer.Handlers.Carts
 		}
 		public async Task<CartResponse> Handle(GetCartByUserIdQuery request, CancellationToken cancellationToken)
 		{
-			var result = await cartService.GetByUserAsync(request.UserId);
+			var result = await cartService.GetByUserAsync(request.UserId, false);
 			return mapper.Map<CartResponse>(result);
 		}
 	}

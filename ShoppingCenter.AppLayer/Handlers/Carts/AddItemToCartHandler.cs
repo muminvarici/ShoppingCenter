@@ -23,7 +23,7 @@ namespace ShoppingCenter.AppLayer.Handlers.Carts
 		public async Task<CartResponse> Handle(AddItemToCartCommand request, CancellationToken cancellationToken)
 		{
 			//var cart = await cartService.GetByIdAsync(request.Id);
-			var cart = await cartService.GetByUserAsync(request.UserId);
+			var cart = await cartService.GetByUserAsync(request.UserId, false);
 
 			var product = await productService.GetByIdAsync(request.ProductInfo.Id);
 
