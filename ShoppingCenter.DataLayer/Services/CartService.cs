@@ -14,10 +14,10 @@ namespace ShoppingCenter.DataLayer.Services
 	[ScopedDependency(ServiceType = typeof(ICartService))]
 	public class CartService : ICartService
 	{
-		private readonly IMongoRepository<Cart> cartRepository;
+		private readonly IRepository<Cart> cartRepository;
 		private readonly IProductService productService;
 
-		public CartService(IMongoRepository<Cart> cartRepository, IProductService productService)
+		public CartService(IRepository<Cart> cartRepository, IProductService productService)
 		{
 			this.cartRepository = cartRepository;
 			this.productService = productService;
@@ -77,6 +77,10 @@ namespace ShoppingCenter.DataLayer.Services
 		public async Task<Cart> GetByIdAsync(string id)
 		{
 			var cart = await cartRepository.FindByIdAsync(id);
+			if (cart == null)
+			{
+				throw new ServiceException("Cart not found");
+			}
 			await FillCartDetailsAsync(cart);
 			return cart;
 		}

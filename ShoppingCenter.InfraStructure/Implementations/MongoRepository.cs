@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace ShoppingCenter.InfraStructure.Implementations
 {
-	public class MongoRepository<TDocument> : IMongoRepository<TDocument> where TDocument : IDocument
+	public class MongoRepository<TDocument> : IRepository<TDocument> where TDocument : IDocument
 	{
 		private readonly IMongoCollection<TDocument> _collection;
 		public MongoRepository(IOptions<DbSettings> settings)
@@ -58,16 +58,6 @@ namespace ShoppingCenter.InfraStructure.Implementations
 		public virtual async Task<bool> ContainsAsync(Expression<Func<TDocument, bool>> filterExpression)
 		{
 			return await (await _collection.FindAsync(filterExpression)).AnyAsync();
-		}
-
-		public virtual IEnumerable<TDocument> GeoLocation(string filed, double lng, double lat)
-		{
-			var point = new GeoJson2DGeographicCoordinates(lng, lat);
-			var pnt = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(point);
-			var builder = Builders<TDocument>.Filter;
-			var filter = builder.GeoIntersects(filed, pnt);
-
-			return _collection.Find(filter).ToEnumerable();
 		}
 
 		public virtual IQueryable<TDocument> AsQueryable()

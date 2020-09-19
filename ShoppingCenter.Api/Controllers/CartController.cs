@@ -24,8 +24,8 @@ namespace ShoppingCenter.Api.Controllers
 			return ConvertToResponse(result);
 		}
 
-		[HttpGet("GetBuUserId/{userId}")]
-		public async Task<IActionResult> GetBuUserIdAsync(string userId)
+		[HttpGet("GetByUserId/{userId}")]
+		public async Task<IActionResult> GetByUserIdAsync(string userId)
 		{
 			var query = new GetCartByUserIdQuery { UserId = userId };
 			var result = await mediator.Send(query);

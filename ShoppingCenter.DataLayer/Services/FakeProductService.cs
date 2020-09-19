@@ -12,13 +12,13 @@ namespace ShoppingCenter.DataLayer.Services
 	[ScopedDependency(ServiceType = typeof(IProductService), DevelopmentOnly = true)]
 	public class FakeProductService : ProductServiceBase, IProductService
 	{
-		public FakeProductService(IMongoRepository<Product> repository) : base(repository)
+		public FakeProductService(IRepository<Product> repository) : base(repository)
 		{
 		}
 		public async Task InitializeDataAsync()
 		{
 			//repository.DeleteMany(w => true);
-			if (await Repository.CountAsync() < 100)
+			if (await Repository.CountAsync() > 100)
 			{
 				return;
 			}

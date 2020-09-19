@@ -11,11 +11,11 @@ namespace ShoppingCenter.DataLayer.Services
 {
 	public abstract class ProductServiceBase : IProductService
 	{
-		public ProductServiceBase(IMongoRepository<Product> repository)
+		public ProductServiceBase(IRepository<Product> repository)
 		{
 			this.Repository = repository;
 		}
-		public IMongoRepository<Product> Repository { get; private set; }
+		public IRepository<Product> Repository { get; private set; }
 
 		public async Task<Product> SaveProductAsync(string id, Product product)
 		{

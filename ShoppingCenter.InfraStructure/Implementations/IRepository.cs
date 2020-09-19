@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ShoppingCenter.InfraStructure.Implementations
 {
-	public interface IMongoRepository<TDocument> where TDocument : IDocument
+	public interface IRepository<TDocument> where TDocument : IDocument
 	{
 		IQueryable<TDocument> AsQueryable();
 		bool Contains(Expression<Func<TDocument, bool>> filterExpression);
@@ -57,8 +57,6 @@ namespace ShoppingCenter.InfraStructure.Implementations
 		void DeleteMany(Expression<Func<TDocument, bool>> filterExpression);
 
 		Task DeleteManyAsync(Expression<Func<TDocument, bool>> filterExpression);
-
-		IEnumerable<TDocument> GeoLocation(string filed, double lng, double lat);
 
 		IEnumerable<TDocument> GetAll();
 

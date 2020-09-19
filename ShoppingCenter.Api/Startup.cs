@@ -46,7 +46,15 @@ namespace ShoppingCenter.Api
 			//mongo db settings
 			services.Configure<DbSettings>(Configuration.GetSection("DbSettings"));
 
-			services.AddScoped(typeof(IMongoRepository<>), typeof(MongoRepository<>));
+			if (Configuration.GetValue<bool>("UseMongoDb"))
+			{
+				services.AddScoped(typeof(IRepository<>), typeof(MongoRepository<>));
+			}
+			else
+			{
+				services.AddSingleton(typeof(IRepository<>), typeof(InMemoryRepository<>));
+			}
+
 			services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
 			//AutoMapper
