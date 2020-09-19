@@ -88,16 +88,19 @@ namespace ShoppingCenter.InfraStructure.Implementations
 		}
 
 
-		public virtual void InsertOne(TDocument document)
+		public virtual void InsertOne(TDocument document, bool newId = true)
 		{
 			document.CreatedAt = DateTime.Now;
-			document.Id = ObjectId.GenerateNewId();
+			if (newId || document.Id.Equals(ObjectId.Empty))
+			{
+				document.Id = ObjectId.GenerateNewId();
+			}
 			entities.Add(document);
 		}
 
-		public virtual Task InsertOneAsync(TDocument document)
+		public virtual Task InsertOneAsync(TDocument document, bool newId = true)
 		{
-			return Task.Run(() => InsertOne(document));
+			return Task.Run(() => InsertOne(document, newId));
 		}
 
 		public void InsertMany(ICollection<TDocument> documents)

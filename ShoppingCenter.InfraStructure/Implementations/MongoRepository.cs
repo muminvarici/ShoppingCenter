@@ -109,15 +109,24 @@ namespace ShoppingCenter.InfraStructure.Implementations
 		}
 
 
-		public virtual void InsertOne(TDocument document)
+		public virtual void InsertOne(TDocument document, bool newId = true)
 		{
 			document.CreatedAt = DateTime.Now;
+			if (!newId && !document.Id.Equals(ObjectId.Empty))
+			{
+				ReplaceOne(document);
+				return;
+			}
 			_collection.InsertOne(document);
 		}
 
-		public virtual Task InsertOneAsync(TDocument document)
+		public virtual Task InsertOneAsync(TDocument document, bool newId = true)
 		{
 			document.CreatedAt = DateTime.Now;
+			if (!newId && !document.Id.Equals(ObjectId.Empty))
+			{
+				return ReplaceOneAsync(document);
+			}
 			return Task.Run(() => _collection.InsertOneAsync(document));
 		}
 

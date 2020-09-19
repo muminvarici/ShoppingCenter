@@ -24,6 +24,13 @@ namespace ShoppingCenter.Api.Controllers
 			return ConvertToResponse(result);
 		}
 
+		[HttpGet("{id}")]
+		public async Task<IActionResult> Get(string id)
+		{
+			var result = await mediator.Send(new GetProductByIdQuery { Id = id });
+			return ConvertToResponse(result);
+		}
+
 		[HttpPost]
 		public async Task<IActionResult> Create([FromBody]AddProductCommand command)
 		{

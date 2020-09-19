@@ -30,9 +30,9 @@ namespace ShoppingCenter.InfraStructure.Implementations
 
 		Task<TDocument> FindByIdAsync(string id);
 
-		void InsertOne(TDocument document);
+		void InsertOne(TDocument document, bool newId = true);
 
-		Task InsertOneAsync(TDocument document);
+		Task InsertOneAsync(TDocument document, bool newId = true);
 
 		void InsertMany(ICollection<TDocument> documents);
 

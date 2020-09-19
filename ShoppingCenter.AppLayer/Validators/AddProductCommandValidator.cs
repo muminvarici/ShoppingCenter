@@ -3,9 +3,9 @@ using ShoppingCenter.AppLayer.Commands.Products;
 
 namespace ShoppingCenter.AppLayer.Validators
 {
-	public class AddProductValidator : AbstractValidator<AddProductCommand>
+	public class AddProductCommandValidator : AbstractValidator<AddProductCommand>
 	{
-		public AddProductValidator()
+		public AddProductCommandValidator()
 		{
 			RuleFor(w => w.Name)
 				.NotEmpty();

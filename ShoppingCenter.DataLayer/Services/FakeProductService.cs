@@ -1,5 +1,6 @@
 ﻿using Bogus;
 using Core.DependencyInjection.Attributes;
+using MongoDB.Bson;
 using ShoppingCenter.DataLayer.Models;
 using ShoppingCenter.InfraStructure.Implementations;
 using System;
@@ -31,6 +32,14 @@ namespace ShoppingCenter.DataLayer.Services
 				.RuleFor(w => w.Price, w => Convert.ToDecimal(w.Commerce.Price(5, 100, 2)));
 			var data = productFaker.GenerateLazy(100).ToList();
 			await Repository.InsertManyAsync(data);
+			await Repository.InsertOneAsync(new Product
+			{
+				Id = ObjectId.Parse("111111111111111111111111"),
+				CreatedAt = new DateTime(1991, 04, 12),
+				Name = "Manuel test product",
+				Price = 1111,
+				Quantity = 1,
+			}, false);
 		}
 	}
 }
