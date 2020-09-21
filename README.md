@@ -5,7 +5,7 @@
 ## This project is developed for an assignment and consists of these technologies and approches below:
 
 ### Technologies & Approaches
-- Mediator pattern
+- CQRS - Mediator pattern
 - Repository pattern
 - TDD (for product and cart)
 - Fluent Assertions
@@ -33,7 +33,7 @@ The application will be worked in development & test mode default.
 ## Bu proje aşağıdaki teknoloji ve yaklaşımları içeren bir assignment için geliştirilmiştir.
 
 ### Teknolojiler & Yaklaşımlar
-- Mediator pattern
+- CQRS - Mediator pattern
 - Repository pattern
 - TDD (ürün ve sepet için)
 - Fluent Assertions
